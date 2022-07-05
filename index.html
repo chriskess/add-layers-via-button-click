@@ -6,7 +6,10 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   />
   <script src="https://code.archilogic.com/fpe-sdk/nightly/v4.0.3/fpe.js"></script>
-  <link rel="stylesheet" href="https://code.archilogic.com/fpe-sdk/nightly/v4.0.3/fpe.css" />
+  <link
+    rel="stylesheet"
+    href="https://code.archilogic.com/fpe-sdk/nightly/v4.0.3/fpe.css"
+  />
   <title>fpe hello world demo</title>
   <style>
     #hello-plan {
@@ -42,42 +45,47 @@
     }
   </style>
   <body>
-    <div className="container"></div>
+    <div className="left-container"></div>
     <div id="hello-plan"></div>
     <script type="module">
       // Create publishable access token at https://developers.archilogic.com/access-tokens.html
-      const publishableToken = 'd3860d6c-e26e-4934-bd5e-d2f7f707e077'
-      const demoSceneId = 'a9aaafdf-d5b6-4b4a-82a0-9efb6d5b155a'
-      const container = document.getElementById('hello-plan')
-      const floorPlan = new FloorPlanEngine({ container })
+      const publishableToken = "d3860d6c-e26e-4934-bd5e-d2f7f707e077";
+      const demoSceneId = "a9aaafdf-d5b6-4b4a-82a0-9efb6d5b155a";
+      const container = document.getElementById("hello-plan");
+      const floorPlan = new FloorPlanEngine({ container });
 
       floorPlan.loadScene(demoSceneId, { publishableToken }).then(() => {
-        const layer = floorPlan.addLayer()
+        const layer = floorPlan.addLayer();
         floorPlan.resources.assets.forEach((asset) => {
           //console.log(asset)
-          if (asset.name == 'Generic office chair') {
+          if (asset.name == "Generic office chair") {
             layer.addGraphic({
               shapes: [
                 {
-                  type: 'polygon',
+                  type: "polygon",
                   points: asset.polygon,
-                  props: { stroke: 0xff0000, strokeWidth: 5 }
-                }
-              ]
-            })
+                  props: { stroke: 0xff0000, strokeWidth: 5 },
+                },
+              ],
+            });
           } else {
             layer.addGraphic({
               shapes: [
                 {
-                  type: 'polygon',
+                  type: "polygon",
                   points: asset.polygon,
-                  props: { stroke: 0x6aa84f, strokeWidth: 5, fill: 0x0b5394, fillOpacity: 0.75 }
-                }
-              ]
-            })
+                  props: {
+                    stroke: 0x6aa84f,
+                    strokeWidth: 5,
+                    fill: 0x0b5394,
+                    fillOpacity: 0.75,
+                  },
+                },
+              ],
+            });
           }
-        })
-      })
+        });
+      });
     </script>
   </body>
 </html>
