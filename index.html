@@ -20,11 +20,15 @@
       <input
         type = 'button'
         class="show-button"
-        id='show-button-Generic-office-chairs'
-        value="Generic office chairs"
+        id='show-button-task-chairs'
+        value="Task Chairs"
       ></input>
-    </div>
-    <div>
+      <input
+        type = 'button'
+        class="show-button"
+        id='show-button-toilets'
+        value="Toilets"
+      ></input>
       <input
         type = 'button'
         class="show-button"
@@ -33,53 +37,67 @@
       ></input>
     </div>
     <div>
-      <input
-        type = 'button'
-        class="show-button"
-        id='show-button-toilets'
-        value="Toilets"
-      ></input>
+      
+    </div>
+    <div>
+      
     </div>
     <div id="hello-plan"></div>
     <script type="module">
       // Create publishable access token at https://developers.archilogic.com/access-tokens.html
-      const publishableToken = "d3860d6c-e26e-4934-bd5e-d2f7f707e077";
-      const demoSceneId = "a9aaafdf-d5b6-4b4a-82a0-9efb6d5b155a";
+      const publishableToken = "5d2e8502-9a07-4e10-a933-3234eebce84b";
+      const demoSceneId = "0dc0167c-7596-41b4-9279-1394de5683e8";
       const container = document.getElementById("hello-plan");
       const floorPlan = new FloorPlanEngine({ container });
+      let genericOfficeChairButton = document.getElementById('show-button-task-chairs')
+      let desksButton = document.getElementById('show-button-desks')
+      let toiletsButton = document.getElementById('show-button-toilets')
+      const layer = floorPlan.addLayer();
 
       floorPlan.loadScene(demoSceneId, { publishableToken }).then(() => {
-        const layer = floorPlan.addLayer();
         floorPlan.resources.assets.forEach((asset) => {
-          //console.log(asset)
-          if (asset.name == "Generic office chair") {
+        genericOfficeChairButton.addEventListener('click', function() {
+          if (asset.name == "Task Chair") {
             layer.addGraphic({
               shapes: [
                 {
                   type: "polygon",
                   points: asset.polygon,
-                  props: { stroke: 0xff0000, strokeWidth: 5 },
-                },
-              ],
-            });
-          } else {
-            layer.addGraphic({
-              shapes: [
-                {
-                  type: "polygon",
-                  points: asset.polygon,
-                  props: {
-                    stroke: 0x6aa84f,
-                    strokeWidth: 5,
-                    fill: 0x0b5394,
-                    fillOpacity: 0.75,
-                  },
+                  props: { stroke: 0x227c9d  , strokeWidth: 5, fill: 0x227c9d, fillOpacity: 0.25 },
                 },
               ],
             });
           }
+          toiletsButton.addEventListener('click', function() {
+            if (asset.name == "Toilet") {
+            layer.addGraphic({
+              shapes: [
+                {
+                  type: "polygon",
+                  points: asset.polygon,
+                  props: { stroke: 0x17c3b2 , strokeWidth: 5, fill: 0x17c3b2, fillOpacity: 0.75 },
+                },
+              ],
+            });
+          }
+          desksButton.addEventListener('click', function() {
+            if (asset.subCategories == "desk") {
+            layer.addGraphic({
+              shapes: [
+                {
+                  type: "polygon",
+                  points: asset.polygon,
+                  props: { stroke: 0xffcb77 , strokeWidth: 5, fill: 0xffcb77, fillOpacity: 0.75 },
+                },
+              ],
+            });
+          }
+          })
+        })
+          console.log(asset)
         });
       });
+    });
     </script>
   </body>
 </html>
