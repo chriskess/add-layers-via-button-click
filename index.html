@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" src="style.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <meta charset="utf-8" />
   <meta
@@ -14,9 +14,32 @@
     href="https://code.archilogic.com/fpe-sdk/nightly/v4.0.3/fpe.css"
   />
   <title>fpe hello world demo</title>
-  <style></style>
   <body>
-    <div className="left-container"></div>
+    <div>
+      <h2>Show assets</h2>
+      <input
+        type = 'button'
+        class="show-button"
+        id='show-button-Generic-office-chairs'
+        value="Generic office chairs"
+      ></input>
+    </div>
+    <div>
+      <input
+        type = 'button'
+        class="show-button"
+        id='show-button-desks'
+        value="Desks"
+      ></input>
+    </div>
+    <div>
+      <input
+        type = 'button'
+        class="show-button"
+        id='show-button-toilets'
+        value="Toilets"
+      ></input>
+    </div>
     <div id="hello-plan"></div>
     <script type="module">
       // Create publishable access token at https://developers.archilogic.com/access-tokens.html
