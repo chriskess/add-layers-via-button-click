@@ -1,103 +1,127 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <meta charset="utf-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
-  <script src="https://code.archilogic.com/fpe-sdk/nightly/v4.0.3/fpe.js"></script>
-  <link
-    rel="stylesheet"
-    href="https://code.archilogic.com/fpe-sdk/nightly/v4.0.3/fpe.css"
-  />
-  <title>fpe hello world demo</title>
-  <body>
-    <div>
-      <h2>Show assets</h2>
-      <input
-        type = 'button'
-        class="show-button"
-        id='show-button-task-chairs'
-        value="Task Chairs"
-      ></input>
-      <input
-        type = 'button'
-        class="show-button"
-        id='show-button-toilets'
-        value="Toilets"
-      ></input>
-      <input
-        type = 'button'
-        class="show-button"
-        id='show-button-desks'
-        value="Desks"
-      ></input>
-    </div>
-    <div>
-      
-    </div>
-    <div>
-      
-    </div>
-    <div id="hello-plan"></div>
-    <script type="module">
-      // Create publishable access token at https://developers.archilogic.com/access-tokens.html
-      const publishableToken = "5d2e8502-9a07-4e10-a933-3234eebce84b";
-      const demoSceneId = "0dc0167c-7596-41b4-9279-1394de5683e8";
-      const container = document.getElementById("hello-plan");
-      const floorPlan = new FloorPlanEngine({ container });
-      let genericOfficeChairButton = document.getElementById('show-button-task-chairs')
-      let desksButton = document.getElementById('show-button-desks')
-      let toiletsButton = document.getElementById('show-button-toilets')
-      const layer = floorPlan.addLayer();
 
-      floorPlan.loadScene(demoSceneId, { publishableToken }).then(() => {
-        floorPlan.resources.assets.forEach((asset) => {
-        genericOfficeChairButton.addEventListener('click', function() {
-          if (asset.name == "Task Chair") {
-            layer.addGraphic({
-              shapes: [
-                {
-                  type: "polygon",
-                  points: asset.polygon,
-                  props: { stroke: 0x227c9d  , strokeWidth: 5, fill: 0x227c9d, fillOpacity: 0.25 },
-                },
-              ],
-            });
-          }
-        })
-          toiletsButton.addEventListener('click', function() {
-            if (asset.name == "Toilet") {
-            layer.addGraphic({
-              shapes: [
-                {
-                  type: "polygon",
-                  points: asset.polygon,
-                  props: { stroke: 0x17c3b2 , strokeWidth: 5, fill: 0x17c3b2, fillOpacity: 0.75 },
-                },
-              ],
-            });
-          }
-        })
-          desksButton.addEventListener('click', function() {
-            if (asset.subCategories == "desk") {
-            layer.addGraphic({
-              shapes: [
-                {
-                  type: "polygon",
-                  points: asset.polygon,
-                  props: { stroke: 0xffcb77 , strokeWidth: 5, fill: 0xffcb77, fillOpacity: 0.75 },
-                },
-              ],
-            });
-          }
+<head>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<script src="https://code.archilogic.com/fpe-sdk/nightly/v4.0.3/fpe.js"></script>
+<title>fpe hello world demo</title>
+
+<body>
+  <div>
+    <h2>Show polygons to assets</h2>
+    <input type='button' class="show-button" id='show-button-task-chairs' value="Show Task Chairs"></input>
+    <input type='button' class="show-button" id='show-button-toilets' value="Show Toilets"></input>
+    <input type='button' class="show-button" id='show-button-desks' value="Show Desks"></input>
+  </div>
+  <div>
+
+  </div>
+  <div>
+
+  </div>
+  <div id="hello-plan"></div>
+  <script type="module">
+    const startupOptions = {
+      planRotation: 300
+    };
+
+
+    // Create publishable access token at https://developers.archilogic.com/access-tokens.html
+    const publishableToken = "5d2e8502-9a07-4e10-a933-3234eebce84b";
+    const demoSceneId = "0dc0167c-7596-41b4-9279-1394de5683e8";
+    const container = document.getElementById("hello-plan");
+    const floorPlan = new FloorPlanEngine({ container });
+    let taskChairsButton = document.getElementById('show-button-task-chairs')
+    let desksButton = document.getElementById('show-button-desks')
+    let toiletsButton = document.getElementById('show-button-toilets')
+    const layer = floorPlan.addLayer();
+
+    let toiletsList = []
+    let desksList = []
+    let taskChairsList = []
+
+    floorPlan.loadScene(demoSceneId, { publishableToken }).then(() => {
+
+      toiletsButton.addEventListener('click', function () {
+        if (toiletsButton.value == 'Show Toilets') {
+          toiletsList = []
+          floorPlan.resources.assets.forEach((asset) => {
+            if (asset.subCategories == "toilet") {
+              let shape = {
+                type: "polygon",
+                points: asset.polygon,
+                props: { stroke: 0x17c3b2, strokeWidth: 5, fill: 0x17c3b2, fillOpacity: 0.75 },
+              }
+              let y = layer.addGraphic({
+                shapes: [shape],
+              });
+              toiletsList.push(y)
+
+            }
           })
-          console.log(asset)
-        });
-      });
-    </script>
-  </body>
+          toiletsButton.value = 'Hide Toilets'
+        } else {
+          toiletsList.forEach(i => layer.deleteGraphic(i))
+          toiletsButton.value = 'Show Toilets'
+        }
+      })
+
+      desksButton.addEventListener('click', function () {
+        //console.log(layer);
+        if (desksButton.value == 'Show Desks') {
+          desksList = []
+          floorPlan.resources.assets.forEach((asset) => {
+            if (asset.subCategories == "desk") {
+              let shape = {
+                type: "polygon",
+                points: asset.polygon,
+                props: { stroke: 0xffcb77, strokeWidth: 5, fill: 0xffcb77, fillOpacity: 0.75 },
+              }
+              let r = layer.addGraphic({
+                shapes: [shape],
+              });
+              desksList.push(r)
+
+            }
+          })
+          desksButton.value = 'Hide Desks'
+        } else {
+          desksList.forEach(i => layer.deleteGraphic(i))
+          desksButton.value = 'Show Desks'
+        }
+      })
+
+      taskChairsButton.addEventListener('click', function () {
+        //console.log(layer);
+        if (taskChairsButton.value == 'Show Task Chairs') {
+          taskChairsList = []
+          floorPlan.resources.assets.forEach((asset) => {
+            if (asset.subCategories == "taskChair") {
+              let shape = {
+                type: "polygon",
+                points: asset.polygon,
+                props: { stroke: 0x227c9d, strokeWidth: 5, fill: 0x227c9d, fillOpacity: 0.75 },
+              }
+              let z = layer.addGraphic({
+                shapes: [shape],
+              });
+              taskChairsList.push(z)
+
+            }
+          })
+          taskChairsButton.value = 'Hide Task Chairs'
+        } else {
+          taskChairsList.forEach(i => layer.deleteGraphic(i))
+          taskChairsButton.value = 'Show Task Chairs'
+        }
+      })
+    })
+
+
+  </script>
+</body>
+
 </html>
