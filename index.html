@@ -25,15 +25,25 @@
   <div id="hello-plan"></div>
   <script type="module">
     const startupOptions = {
-      planRotation: 300
-    };
+      theme: {
+          background: {
+            color: {
+              fill: [0, 0, 0]
+            },
+            showGrid: false
+          },
+    },
+    UI: {
+      menu: true
+
+    }};
 
 
     // Create publishable access token at https://developers.archilogic.com/access-tokens.html
     const publishableToken = "5d2e8502-9a07-4e10-a933-3234eebce84b";
     const demoSceneId = "0dc0167c-7596-41b4-9279-1394de5683e8";
     const container = document.getElementById("hello-plan");
-    const floorPlan = new FloorPlanEngine({ container });
+    const floorPlan = new FloorPlanEngine({ container , options: startupOptions});
     let taskChairsButton = document.getElementById('show-button-task-chairs')
     let desksButton = document.getElementById('show-button-desks')
     let toiletsButton = document.getElementById('show-button-toilets')
