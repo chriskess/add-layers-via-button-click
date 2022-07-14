@@ -26,17 +26,22 @@
   <script type="module">
     const startupOptions = {
       theme: {
-          background: {
-            color: {
-              fill: [0, 0, 0]
-            },
-            showGrid: false
-          },
-    },
-    UI: {
-      menu: true
-
-    }};
+        showGrid: true,
+        elements: {
+          space: {
+            program: {
+              work: {
+                fill: [232, 107, 153],
+                fillOpacity: 0.25
+              }
+            }
+          }
+        },
+        UI: {
+          menu: true
+        }
+      }
+    }
 
 
     // Create publishable access token at https://developers.archilogic.com/access-tokens.html
